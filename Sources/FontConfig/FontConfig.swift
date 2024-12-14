@@ -40,8 +40,8 @@ public final class FontConfiguration {
         try body(internalPointer)
     }
     
-    public func substitute(pattern: Pattern, with otherPattern: Pattern? = nil, kind: FcMatchKind) {
-        FcConfigSubstituteWithPat(internalPointer, pattern.internalPointer, otherPattern?.internalPointer, kind)
+    public func substitute(pattern: Pattern, with otherPattern: Pattern? = nil, kind: FcMatchKind) -> Bool {
+        FcConfigSubstituteWithPat(internalPointer, pattern.internalPointer, otherPattern?.internalPointer, kind) != 0
     }
     
     /// Finds the font in sets most closely matching pattern and returns the result of FcFontRenderPrepare for that font and the provided pattern.
