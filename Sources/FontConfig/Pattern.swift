@@ -122,6 +122,25 @@ public extension Pattern {
             }
         }
     }
+    
+    /// Font slant
+    var slant: FontSlant? {
+        get {
+            guard let rawValue = integer(for: .slant),
+                  let slant = FontSlant(rawValue: rawValue) else {
+                return nil
+            }
+            return slant
+        }
+        set {
+            if let newValue {
+                remove(.slant)
+                setInteger(newValue.rawValue, for: .slant)
+            } else {
+                remove(.slant)
+            }
+        }
+    }
 }
 
 // MARK: - Supporting Types
