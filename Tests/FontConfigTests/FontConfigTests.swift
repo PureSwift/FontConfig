@@ -5,23 +5,23 @@ import Testing
     
     #if os(Linux)
     var fontNames = [
-        ("LiberationSerif", "LiberationSerif", false),
-        ("LiberationSerif-Bold", "LiberationSerif", true)
+        ("LiberationSerif", "LiberationSerif"),
+        ("LiberationSerif-Bold", "LiberationSerif")
     ]
 
     #else
     var fontNames = [
-        ("TimesNewRoman", "TimesNewRoman", false),
-        ("TimesNewRoman-Bold", "TimesNewRoman", true)
+        ("TimesNewRoman", "TimesNewRoman"),
+        ("TimesNewRoman-Bold", "TimesNewRoman")
     ]
     #endif
     
     #if os(macOS)
-    fontNames += [("MicrosoftSansSerif", "MicrosoftSansSerif", false),
-                  ("MicrosoftSansSerif-Bold", "MicrosoftSansSerif", true)]
+    fontNames += [("MicrosoftSansSerif", "MicrosoftSansSerif"),
+                  ("MicrosoftSansSerif-Bold", "MicrosoftSansSerif")]
     #endif
     
-    for (name, family, isBold) in fontNames {
+    for (name, family) in fontNames {
         
         //let font = #require(Pattern(name: fontName), "Could not create font \(fontName)")
         
@@ -31,5 +31,6 @@ import Testing
         }
         
         #expect(pattern.family == family)
+        #expect(pattern.weight == nil)
     }
 }
