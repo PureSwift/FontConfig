@@ -34,7 +34,7 @@ public final class Pattern {
     // MARK: - Methods
     
     @discardableResult
-    public func set(_ value: String, for key: Key) -> Bool {
+    public func setString(_ value: String, for key: Key) -> Bool {
         FcPatternAddString(internalPointer, key.rawValue, value) != 0
     }
     
@@ -45,17 +45,26 @@ public final class Pattern {
     }
     
     @discardableResult
-    public func get(_ key: Key) -> String? {
+    public func string(for key: Key, at position: Int32 = 0) -> String? {
         var cString: UnsafeMutablePointer<UInt8>?
-        guard FcPatternGetString(internalPointer, key.rawValue, 0, &cString) == FcResultMatch else {
+        guard FcPatternGetString(internalPointer, key.rawValue, position, &cString) == FcResultMatch else {
             return nil
         }
         return String(cString: cString!)
     }
     
     @discardableResult
-    public func set(_ value: Int32, for key: Key) -> Bool {
+    public func setInteger(_ value: Int32, for key: Key) -> Bool {
         FcPatternAddInteger(internalPointer, key.rawValue, value) != 0
+    }
+    
+    @discardableResult
+    public func integer(for key: Key, at position: Int32 = 0) -> Int32? {
+        var intValue: Int32 = 0
+        guard FcPatternGetInteger(internalPointer, key.rawValue, position, &intValue) == FcResultMatch else {
+            return nil
+        }
+        return intValue
     }
 }
 
@@ -84,13 +93,32 @@ public extension Pattern {
     
     var family: String? {
         get {
-            get(.family)
+            string(for: .family)
         }
         set {
             if let newValue {
-                set(newValue, for: .family)
+                remove(.family)
+                setString(newValue, for: .family)
             } else {
                 remove(.family)
+            }
+        }
+    }
+    
+    var weight: FontWeight? {
+        get {
+            guard let weightValue = integer(for: .weight),
+                let weight = FontWeight(rawValue: weightValue) else {
+                return nil
+            }
+            return weight
+        }
+        set {
+            if let newValue {
+                remove(.weight)
+                setInteger(newValue.rawValue, for: .weight)
+            } else {
+                remove(.weight)
             }
         }
     }
@@ -131,4 +159,10 @@ extension Pattern.Key: CustomStringConvertible {
 public extension Pattern.Key {
     
     static var family: Pattern.Key { .init(FC_FAMILY) }
+    
+    static var weight: Pattern.Key { .init(FC_WEIGHT) }
+    
+    static var slant: Pattern.Key { .init(FC_SLANT) }
+    
+    static var width: Pattern.Key { .init(FC_WIDTH) }
 }
