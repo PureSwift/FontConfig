@@ -20,6 +20,10 @@ public final class Pattern {
         FcPatternDestroy(internalPointer)
     }
     
+    internal init(_ pointer: OpaquePointer) {
+        self.internalPointer = pointer
+    }
+    
     public init() {
         self.internalPointer = FcPatternCreate()
     }

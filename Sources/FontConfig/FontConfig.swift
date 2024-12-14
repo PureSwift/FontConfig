@@ -46,9 +46,15 @@ public final class FontConfiguration {
     
     /// Finds the font in sets most closely matching pattern and returns the result of FcFontRenderPrepare for that font and the provided pattern.
     /// This function should be called only after FcConfigSubstitute and FcDefaultSubstitute have been called for p; otherwise the results will not be correct.
-    public func match(_ pattern: Pattern) -> FcResult {
+    public func match(_ pattern: Pattern) -> Pattern? {
         var result = FcResult(0)
-        FcFontMatch(internalPointer, pattern.internalPointer, &result)
-        return result
+        let resultPattern = FcFontMatch(internalPointer, pattern.internalPointer, &result)
+        guard result == FcResultMatch else {
+            return nil
+        }
+        guard let resultPattern else {
+            return nil
+        }
+        return Pattern(resultPattern)
     }
 }
