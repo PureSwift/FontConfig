@@ -33,6 +33,20 @@ public final class Pattern {
     
     // MARK: - Methods
     
+    /**
+     Perform default substitutions in a pattern
+        
+     Supplies default values for underspecified font patterns:
+     - Patterns without a specified style or weight are set to Medium
+
+     - Patterns without a specified style or slant are set to Roman
+
+     - Patterns without a specified pixel size are given one computed from any specified point size (default 12), dpi (default 75) and scale (default 1).
+     */
+    public func defaultSubstitutions() {
+        FcDefaultSubstitute(internalPointer)
+    }
+    
     @discardableResult
     public func setString(_ value: String, for key: Key) -> Bool {
         FcPatternAddString(internalPointer, key.rawValue, value) != 0
