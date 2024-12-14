@@ -33,6 +33,10 @@ public final class Pattern {
     
     // MARK: - Methods
     
+    public func withUnsafePointer<R, E>(_ body: (OpaquePointer) throws(E) -> R) throws(E) -> R where E: Error {
+        try body(internalPointer)
+    }
+    
     /**
      Perform default substitutions in a pattern
         

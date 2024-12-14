@@ -36,6 +36,10 @@ public final class FontConfiguration {
     
     // MARK: Methods
     
+    public func withUnsafePointer<R, E>(_ body: (OpaquePointer) throws(E) -> R) throws(E) -> R where E: Error {
+        try body(internalPointer)
+    }
+    
     public func substitute(pattern: Pattern, with otherPattern: Pattern? = nil, kind: FcMatchKind) {
         FcConfigSubstituteWithPat(internalPointer, pattern.internalPointer, otherPattern?.internalPointer, kind)
     }
