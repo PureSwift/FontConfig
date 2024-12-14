@@ -91,6 +91,7 @@ extension Pattern: Hashable {
 
 public extension Pattern {
     
+    /// Font family
     var family: String? {
         get {
             string(for: .family)
@@ -105,10 +106,11 @@ public extension Pattern {
         }
     }
     
+    /// Font weight
     var weight: FontWeight? {
         get {
-            guard let weightValue = integer(for: .weight),
-                let weight = FontWeight(rawValue: weightValue) else {
+            guard let rawValue = integer(for: .weight),
+                let weight = FontWeight(rawValue: rawValue) else {
                 return nil
             }
             return weight
@@ -138,6 +140,25 @@ public extension Pattern {
                 setInteger(newValue.rawValue, for: .slant)
             } else {
                 remove(.slant)
+            }
+        }
+    }
+    
+    /// Font width
+    var width: FontWidth? {
+        get {
+            guard let rawValue = integer(for: .width),
+                  let width = FontWidth(rawValue: rawValue) else {
+                return nil
+            }
+            return width
+        }
+        set {
+            if let newValue {
+                remove(.width)
+                setInteger(newValue.rawValue, for: .width)
+            } else {
+                remove(.width)
             }
         }
     }

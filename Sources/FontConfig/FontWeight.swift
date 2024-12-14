@@ -6,7 +6,7 @@
 //
 
 /// FontConfig Weight
-public enum FontWeight: Int32 {
+public enum FontWeight: Int32, Sendable {
     
         /// Thin font weight (0).
        case thin = 0
