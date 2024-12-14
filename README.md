@@ -1,2 +1,2 @@
-# CFontConfig
-Swift C module for FontConfig
+# FontConfig
+Swift library for FontConfig
